@@ -106,7 +106,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Archie
+  m_Name: ArchieSinCabeza
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isWalking
@@ -223,7 +223,7 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6964242547055967765}
-    m_Position: {x: 180, y: 400, z: 0}
+    m_Position: {x: 190, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2841673064940052155}
     m_Position: {x: -180, y: 400, z: 0}
