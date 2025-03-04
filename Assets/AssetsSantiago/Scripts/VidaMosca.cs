@@ -18,6 +18,11 @@ public class VidaMosca : MonoBehaviour
     {
        if(collision.gameObject.CompareTag("Player")){
         vidaTotal -= 10;
+            if(vidaTotal <= 0){
+
+                Debug.Log("tamuerto");
+                Muerte();
+            }
        }
     }
 
@@ -25,12 +30,13 @@ public class VidaMosca : MonoBehaviour
 
         vidaTotal -= daño;
         if(vidaTotal <= 0){
+            Debug.Log("TaMuerto");
 
            Muerte();
         }
     }
     void Muerte(){
 
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }
