@@ -16,7 +16,7 @@ public class VidaMosca : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-       if(collision.gameObject.CompareTag("Player")){
+       if(collision.gameObject.CompareTag("Racket")){
         vidaTotal -= 10;
             if(vidaTotal <= 0){
 
