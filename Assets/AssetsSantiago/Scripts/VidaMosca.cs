@@ -5,38 +5,40 @@ using UnityEngine.UI;
 
 public class VidaMosca : MonoBehaviour
 {
-  public int vidaTotal;
-  public Slider BarraVidaEnemigo;
+    public int vidaTotal;
+    public int vidaCurrente;
+    public Image barraVidaEnemigo;
 
-
-    void Update()
+    void Start()
     {
-        BarraVidaEnemigo.value = vidaTotal;
+        vidaCurrente = vidaTotal;
+        // Asegúrate de que el cálculo de fillAmount sea correcto usando float
+        barraVidaEnemigo.fillAmount = (float)vidaCurrente / vidaTotal;
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-       if(collision.gameObject.CompareTag("Racket")){
-        vidaTotal -= 10;
-            if(vidaTotal <= 0){
-
-                Debug.Log("tamuerto");
-                Muerte();
-            }
-       }
+        if (other.CompareTag("Racket"))
+        {
+            TakeDamage();
+        }
+        barraVidaEnemigo.fillAmount = (float)vidaCurrente / vidaTotal;
     }
 
-    public void TomarDaño(int daño){
 
-        vidaTotal -= daño;
-        if(vidaTotal <= 0){
+    public void TakeDamage()
+    {
+        vidaCurrente -= 10;
+
+        if (vidaCurrente <= 0)
+        {
             Debug.Log("TaMuerto");
-
-           Muerte();
+            Muerte();
         }
     }
-    void Muerte(){
 
+    void Muerte()
+    {
         Destroy(gameObject);
     }
 }
