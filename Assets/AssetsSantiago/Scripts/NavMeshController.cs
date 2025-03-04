@@ -8,12 +8,14 @@ public class NavMeshController : MonoBehaviour
     public Transform objetivo;
     private Animator animator;
     private NavMeshAgent agente;
-    public float attackDistance = 5f;
+    private bool estaAtacando = false;
+    public float attackDistance;
 
 
     void Start()
     {
         agente = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -26,7 +28,13 @@ public class NavMeshController : MonoBehaviour
 
                 agente.isStopped = true;
             }
-            animator.SetTrigger("Attack");
+            estaAtacando = true;
+            animator.SetBool("Ataque", estaAtacando);
+        }
+        else{
+            agente.isStopped = false;
+            estaAtacando = false;
+            animator.SetBool("Ataque", estaAtacando);
         }
         agente.destination = objetivo.position;
     }
