@@ -9,57 +9,75 @@ public class NavMeshController : MonoBehaviour
     private Animator animator;
     private NavMeshAgent agente;
     private bool estaAtacando = false;
-    public float attackDistance;
-    public float alturaRandomMin = 5f; // Altura mÌnima aleatoria
-    public float alturaRandomMax = 10f; // Altura m·xima aleatoria
+    public float attackDistance; // Distancia a la que el enemigo ataca
+    public float minAlturaDeVuelo = 3f; // Altura m√≠nima de vuelo
+    public float maxAlturaDeVuelo = 7f; // Altura m√°xima de vuelo
+    public float alturaDeAtaque = 2f; // Altura espec√≠fica al acercarse al objetivo
+    private float alturaDeVuelo; // Altura actual de vuelo
 
     void Start()
     {
         // Configura el NavMeshAgent
         agente = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        agente.updatePosition = false; // Desactiva la actualizaci√≥n autom√°tica de la posici√≥n
+        agente.updateRotation = false; // Desactiva la rotaci√≥n autom√°tica (opcional)
 
-        // Asigna una altura aleatoria al inicio
-        float alturaAleatoria = Random.Range(alturaRandomMin, alturaRandomMax);
-        Vector3 posicionConAltura = new Vector3(transform.position.x, alturaAleatoria, transform.position.z);
-        transform.position = posicionConAltura;
-
-        // Aseg˙rate de que el NavMeshAgent puede moverse en 3D (sin restricciones)
-        agente.avoidancePriority = 50;  // Ajusta esto si lo necesitas para evitar colisiones con otros agentes
-
-        // Desactiva el agente para que no se quede "pegado" al suelo
-        agente.baseOffset = 0f;  // Esto elimina cualquier correcciÛn autom·tica del agente respecto al suelo
+        // Asigna una altura de vuelo aleatoria al inicio
+        alturaDeVuelo = Random.Range(minAlturaDeVuelo, maxAlturaDeVuelo);
     }
 
     void Update()
     {
+        // Calcula la distancia al objetivo
         float distance = Vector3.Distance(transform.position, objetivo.position);
 
-        if(distance <= attackDistance)
+        // Ajusta la altura de vuelo seg√∫n la distancia al objetivo
+        if (distance <= attackDistance)
+        {
+            // Si est√° dentro del rango de ataque, ajusta la altura hacia la altura de ataque
+            alturaDeVuelo = Mathf.Lerp(alturaDeVuelo, alturaDeAtaque, Time.deltaTime * 2f);
+        }
+        else
+        {
+            // Si est√° fuera del rango de ataque, mant√©n una altura aleatoria
+            alturaDeVuelo = Mathf.Lerp(alturaDeVuelo, Random.Range(minAlturaDeVuelo, maxAlturaDeVuelo), Time.deltaTime * 0.5f);
+        }
+
+        // Calcula la posici√≥n objetivo en el eje X y Z, manteniendo la altura de vuelo
+        Vector3 objetivoPosition = new Vector3(objetivo.position.x, alturaDeVuelo, objetivo.position.z);
+
+        // Comportamiento de ataque
+        if (distance <= attackDistance)
         {
             if (agente != null)
             {
-                agente.isStopped = true; // Detiene el movimiento cuando est· en el rango de ataque
+                agente.isStopped = true; // Detiene el movimiento cuando est√° en el rango de ataque
             }
             estaAtacando = true;
             animator.SetBool("Ataque", estaAtacando);
         }
         else
         {
-            agente.isStopped = false; // Vuelve a mover al agente si no est· atacando
+            agente.isStopped = false; // Vuelve a mover al agente si no est√° atacando
             estaAtacando = false;
             animator.SetBool("Ataque", estaAtacando);
         }
 
-        // MantÈn el agente persiguiendo al objetivo en 3D
-        agente.destination = objetivo.position;
+        // Asigna la posici√≥n objetivo al NavMeshAgent
+        agente.SetDestination(objetivoPosition);
 
-        // Asegura que la mosca se mantenga a una altura aleatoria mientras persigue al jugador
-        if (agente.hasPath)
+        // Mueve al enemigo manualmente, manteniendo la altura de vuelo
+        Vector3 newPosition = agente.nextPosition;
+        newPosition.y = alturaDeVuelo; // Ajusta la altura de vuelo
+        transform.position = newPosition;
+
+        // Opcional: Rota al enemigo hacia el objetivo
+        Vector3 direction = (objetivoPosition - transform.position).normalized;
+        if (direction != Vector3.zero)
         {
-            // Solo modifica la altura, mantÈn la posiciÛn X y Z
-            Vector3 destinoConAltura = new Vector3(agente.destination.x, transform.position.y, agente.destination.z);
-            agente.destination = destinoConAltura;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * agente.angularSpeed);
         }
     }
 }

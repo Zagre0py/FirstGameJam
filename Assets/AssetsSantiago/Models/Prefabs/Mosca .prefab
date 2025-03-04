@@ -510,6 +510,10 @@ PrefabInstance:
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f40b276b306045b4193423b76513c310, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.593
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f40b276b306045b4193423b76513c310, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
@@ -582,7 +586,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 8376838573069039798}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 6.2
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -591,7 +595,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 5.9
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -630,6 +634,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objetivo: {fileID: 0}
   attackDistance: 5
+  alturaRandomMin: 5
+  alturaRandomMax: 10
 --- !u!65 &7218606488212125945
 BoxCollider:
   m_ObjectHideFlags: 0
