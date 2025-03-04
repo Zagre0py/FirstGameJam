@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FirstPersonMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
    
     public float moveSpeed = 5f;        
@@ -47,6 +47,15 @@ public class FirstPersonMovement : MonoBehaviour
         // Calcular el movimiento en el espacio mundial
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+        
+        if(moveX != 0 || moveZ !=0)
+        {    
+            animatorPlayer.SetBool("isWalking", true); 
+        }
+        else
+        {
+            animatorPlayer.SetBool("isWalking", false);
+        }
     }
 
     // Método para manejar la rotación de la cámara con el ratón
@@ -79,10 +88,9 @@ public class FirstPersonMovement : MonoBehaviour
     }
     private void Attack()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
-
-        animatorPlayer.SetBool("isAttacking", true);
+            animatorPlayer.SetTrigger("isAttack");  // Usa SetTrigger en lugar de SetBool para animaciones de ataque
         }
     }
 }
