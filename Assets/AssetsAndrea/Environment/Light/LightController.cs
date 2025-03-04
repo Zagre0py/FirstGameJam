@@ -18,13 +18,6 @@ public class LightController : MonoBehaviour
     public float rotationAngle = 45f; // Ángulo total de rotación durante el ciclo
 
     private float rotationSpeed;
-    private float cycleProgress = 0f;
-
-    [Header("Transición de Skybox")]
-    public Material nightSkybox;  // Skybox de noche
-    public Material daySkybox;    // Skybox de día
-    public Color nightAmbientLight = new Color(0.1f, 0.1f, 0.3f);
-    public Color dayAmbientLight = new Color(1f, 0.95f, 0.8f);
 
     void Start()
     {
@@ -50,7 +43,6 @@ public class LightController : MonoBehaviour
     void Update()
     {
         RotateDirectionalLight();
-        UpdateSkyboxTransition();
     }
 
     void RotateDirectionalLight()
@@ -59,18 +51,6 @@ public class LightController : MonoBehaviour
         {
             directionalLight.transform.Rotate(Vector3.right * rotationSpeed * Time.deltaTime);
         }
-    }
-
-    void UpdateSkyboxTransition()
-    {
-        cycleProgress += Time.deltaTime / cycleDuration;
-        cycleProgress %= 1f; // Mantiene el valor entre 0 y 1
-
-        // Interpolación del Skybox
-        RenderSettings.skybox.Lerp(nightSkybox, daySkybox, cycleProgress);
-
-        // Ajuste de la luz ambiental para mejorar la transición
-        RenderSettings.ambientLight = Color.Lerp(nightAmbientLight, dayAmbientLight, cycleProgress);
     }
 
     IEnumerator FlickerLightsCycle()
@@ -109,4 +89,5 @@ public class LightController : MonoBehaviour
         }
     }
 }
+
 
