@@ -12,12 +12,12 @@ public class LifePlayer : MonoBehaviour
         lifeMax = lifeCurrent;
         lifeMax = 10;
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(other.CompareTag("Enemy"))
+        if(collision.gameObject.CompareTag("Enemy"))
         {
             TakeDamage();
-            Debug.Log("El player  esta recibiendo daño");
+            Debug.Log("El player  esta recibiendo daño" + lifeCurrent);
         }
     }
     public void TakeDamage()
