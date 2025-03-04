@@ -21,7 +21,7 @@ public class Menuinicial : MonoBehaviour
     {
     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+ 1);
     }
-    Public void Salir()
+    public void Salir()
     {
         Debug.Log("salir...");
         Application.Quit();
