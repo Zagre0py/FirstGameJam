@@ -13,6 +13,18 @@ public class WaveManager : MonoBehaviour
 
     private void Awake()
     {
+        // Cargar el prefab dinámicamente desde la carpeta Resources
+        if (flyPrefab == null)
+        {
+            flyPrefab = Resources.Load<GameObject>("flyPrefab"); // Asegúrate de que el nombre coincida con el archivo del prefab
+            if (flyPrefab == null)
+            {
+                Debug.LogError("No se pudo cargar el prefab 'flyPrefab' desde la carpeta Resources.");
+            }
+        }
+
+        flyPrefab.gameObject.SetActive(true);
+
         if (Instance == null)
         {
             Instance = this;

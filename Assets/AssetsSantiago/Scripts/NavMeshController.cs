@@ -14,9 +14,11 @@ public class NavMeshController : MonoBehaviour
     public float maxAlturaDeVuelo = 7f; // Altura máxima de vuelo
     public float alturaDeAtaque = 2f; // Altura específica al acercarse al objetivo
     private float alturaDeVuelo; // Altura actual de vuelo
+    public Camera playerCamera; // Cámara del jugador
 
     void Start()
     {
+        gameObject.SetActive(true);
         // Configura el NavMeshAgent
         agente = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
@@ -25,6 +27,34 @@ public class NavMeshController : MonoBehaviour
 
         // Asigna una altura de vuelo aleatoria al inicio
         alturaDeVuelo = Random.Range(minAlturaDeVuelo, maxAlturaDeVuelo);
+
+        // Busca el objeto con el tag "Player" y obtén su transform
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            objetivo = player.transform;
+        }
+        else
+        {
+            Debug.LogError("No se encontró un objeto con el tag 'Player'.");
+        }
+
+        // Si no se asignó la cámara del jugador, usa la cámara principal
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main;
+        }
+
+        // Si aún no se encontró la cámara, busca una cámara en el jugador
+        if (playerCamera == null && player != null)
+        {
+            playerCamera = player.GetComponentInChildren<Camera>();
+        }
+
+        if (playerCamera == null)
+        {
+            Debug.LogError("No se encontró la cámara del jugador.");
+        }
     }
 
     void Update()
@@ -40,8 +70,8 @@ public class NavMeshController : MonoBehaviour
         }
         else
         {
-            // Si está fuera del rango de ataque, mantén una altura aleatoria
-            alturaDeVuelo = Mathf.Lerp(alturaDeVuelo, Random.Range(minAlturaDeVuelo, maxAlturaDeVuelo), Time.deltaTime * 0.5f);
+            // Si está fuera del rango de ataque, ajusta la altura de vuelo hacia la altura de la cámara del jugador
+            alturaDeVuelo = Mathf.Lerp(alturaDeVuelo, playerCamera.transform.position.y, Time.deltaTime * 0.5f);
         }
 
         // Calcula la posición objetivo en el eje X y Z, manteniendo la altura de vuelo
