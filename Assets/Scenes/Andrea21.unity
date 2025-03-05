@@ -432,6 +432,74 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8001288073828518240, guid: c4357fd2cd18af449b8680904f04757c, type: 3}
   m_PrefabInstance: {fileID: 33151387}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &88890147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 88890150}
+  - component: {fileID: 88890149}
+  - component: {fileID: 88890148}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &88890148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88890147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &88890149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88890147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &88890150
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88890147}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &90472011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2999,7 +3067,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1290077954735610345, guid: 4acc312d5c39a17409b942292e22c32a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4095,6 +4164,7 @@ GameObject:
   - component: {fileID: 689217271}
   - component: {fileID: 689217270}
   - component: {fileID: 689217269}
+  - component: {fileID: 689217273}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4191,6 +4261,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &689217273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689217268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969acc355d4e76b48828100c47d1c69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 1533600732}
 --- !u!1001 &696454377
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7386,17 +7469,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6387999897109036511, guid: 2299cb3f68e0afc4bab9fd9c634bd8c2, type: 3}
   m_PrefabInstance: {fileID: 1074312373}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1078833138 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1290077954735610345, guid: 4acc312d5c39a17409b942292e22c32a, type: 3}
-  m_PrefabInstance: {fileID: 487544215}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 969acc355d4e76b48828100c47d1c69f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1093022025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9951,7 +10023,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1078833138}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: pauseMenu, Assembly-CSharp
         m_MethodName: ResetGame
         m_Mode: 1
@@ -10521,7 +10593,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1078833138}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: pauseMenu, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -12100,7 +12172,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1078833138}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: pauseMenu, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
@@ -14488,3 +14560,4 @@ SceneRoots:
   - {fileID: 2123696882}
   - {fileID: 600633903}
   - {fileID: 869155874}
+  - {fileID: 88890150}

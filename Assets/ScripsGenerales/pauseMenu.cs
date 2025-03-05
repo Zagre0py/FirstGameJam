@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,6 +28,8 @@ public class pauseMenu : MonoBehaviour
 
     public void Resume()
     {
+          Cursor.lockState = CursorLockMode.Locked;
+
         TestButton();
         pauseMenuUI.SetActive(false); // Oculta el menú de pausa
         Time.timeScale = 1f; // Reanuda el tiempo del juego
@@ -37,6 +38,7 @@ public class pauseMenu : MonoBehaviour
 
     void Pause()
     {
+        Cursor.lockState = CursorLockMode.None;
         pauseMenuUI.SetActive(true); // Muestra el menú de pausa
         Time.timeScale = 0f; // Pausa el tiempo del juego
         isPaused = true;

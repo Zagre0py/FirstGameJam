@@ -33,7 +33,7 @@ public class WaveManager : MonoBehaviour
     }
 
 
-    // Método para buscar los spawnPoints en la escena actual
+    // Mï¿½todo para buscar los spawnPoints en la escena actual
     public void FindSpawnPoints()
     {
         GameObject[] spawnPointObjects = GameObject.FindGameObjectsWithTag("SpawnPoint");
@@ -91,9 +91,9 @@ public class WaveManager : MonoBehaviour
     // Si la escena es MainMenu, GameOver, o GameVictory, destruir el WaveManager
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "MainMenu" || scene.name == "GameOver" || scene.name == "GameVictory")
+        if (scene.name == "menuinicial" || scene.name == "GameOver" || scene.name == "GameVictory")
         {
-            Destroy(gameObject); // Destruir WaveManager si está presente en estas escenas
+            Destroy(gameObject); // Destruir WaveManager si estï¿½ presente en estas escenas
         }
     }
 }
