@@ -11,8 +11,8 @@ public class LifePlayer : MonoBehaviour
     private void Start()
     {
         lifeMax = lifeCurrent;
-        barLife.fillAmount = lifeCurrent / lifeMax;
-        lifeMax = 10;
+        barLife.fillAmount = (float) lifeCurrent / lifeMax;
+        lifeMax = 30;
 
     }
     private void OnCollisionEnter(Collision collision)
@@ -22,10 +22,19 @@ public class LifePlayer : MonoBehaviour
             TakeDamage();
             Debug.Log("El player  esta recibiendo daño" + lifeCurrent);
         }
-        barLife.fillAmount = lifeCurrent / lifeMax;
+        barLife.fillAmount = (float) lifeCurrent / lifeMax;
     }
     public void TakeDamage()
     {
         lifeCurrent -= 1;
+
+        if (lifeCurrent <= 0)
+        {
+            lifeCurrent = 0; // Asegurarnos de que no sea negativo
+            Debug.Log("El jugador ha muerto");
+            GameManager.Instance.GameOverLose(); // Notificar al GameManager que el jugador ha perdido
+        }
+
+        barLife.fillAmount = lifeCurrent / lifeMax;
     }
 }
