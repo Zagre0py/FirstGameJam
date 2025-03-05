@@ -9,21 +9,16 @@ public class WaveManager : MonoBehaviour
     public Transform[] spawnPoints; // Puntos de spawn
     public float timeBetweenSpawns = 1f;
 
-    private int fliesRemaining;
-
     private void Awake()
     {
-        // Cargar el prefab dinámicamente desde la carpeta Resources
         if (flyPrefab == null)
         {
-            flyPrefab = Resources.Load<GameObject>("flyPrefab"); // Asegúrate de que el nombre coincida con el archivo del prefab
+            flyPrefab = Resources.Load<GameObject>("flyPrefab");
             if (flyPrefab == null)
             {
                 Debug.LogError("No se pudo cargar el prefab 'flyPrefab' desde la carpeta Resources.");
             }
         }
-
-        flyPrefab.gameObject.SetActive(true);
 
         if (Instance == null)
         {
@@ -35,30 +30,30 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    // Método para iniciar una oleada con un número específico de moscas
     public void StartWave(int numberOfFlies)
     {
-        fliesRemaining = numberOfFlies;
-        StartCoroutine(SpawnFlies());
+        StartCoroutine(SpawnFlies(numberOfFlies));
     }
 
-    private IEnumerator SpawnFlies()
+    private IEnumerator SpawnFlies(int numberOfFlies)
     {
-        for (int i = 0; i < fliesRemaining; i++)
+        for (int i = 0; i < numberOfFlies; i++)
         {
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            Instantiate(flyPrefab, spawnPoint.position, Quaternion.identity);
+            GameObject fly = Instantiate(flyPrefab, spawnPoint.position, Quaternion.identity);
+
+            // Suscribir el evento OnFlyDefeated de la mosca
+            VidaMosca vidaMosca = fly.GetComponent<VidaMosca>();
+            if (vidaMosca != null)
+            {
+                vidaMosca.OnFlyDefeated += GameManager.Instance.FlyDefeated;
+            }
+            else
+            {
+                Debug.LogError("El prefab de la mosca no tiene el componente VidaMosca.");
+            }
+
             yield return new WaitForSeconds(timeBetweenSpawns);
-        }
-    }
-
-    public void FlyDefeated()
-    {
-        fliesRemaining--;
-
-        if (fliesRemaining <= 0)
-        {
-            GameManager.Instance.CompleteWave(); // Notificar al GameManager que la oleada ha sido completada
         }
     }
 }
