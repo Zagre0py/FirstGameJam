@@ -30,16 +30,36 @@ public class AudioManager : MonoBehaviour
 
         // Suscribirse al evento de carga de escenas
         SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += EscenaPerdiste;
+        SceneManager.sceneLoaded += EscenaVictoria;
     }
 
     // Método que se ejecuta cada vez que se carga una escena
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // Verifica si la escena cargada es el escenario 1
-        if (scene.name == "Julio") // Cambia "Escenario1" por el nombre exacto de tu escena
+        if (scene.name == "Andrea21") // Cambia "Escenario1" por el nombre exacto de tu escena
         {
             // Cambia la música al entrar al escenario 1
             PlayMusic("Escenario01"); // Cambia "ThemeEscenario1" por el nombre de la música que quieres reproducir
+        }
+    }
+    private void EscenaPerdiste (Scene scene, LoadSceneMode mode)
+    {
+        // Verifica si la escena cargada es el escenario 1
+        if (scene.name == "GameOver") // Cambia "Escenario1" por el nombre exacto de tu escena
+        {
+            // Cambia la música al entrar al escenario 1
+            PlayMusic("Theme01"); // Cambia "ThemeEscenario1" por el nombre de la música que quieres reproducir
+        }
+    }
+    private void EscenaVictoria (Scene scene, LoadSceneMode mode)
+    {
+        // Verifica si la escena cargada es el escenario 1
+        if (scene.name == "GameVictory") // Cambia "Escenario1" por el nombre exacto de tu escena
+        {
+            // Cambia la música al entrar al escenario 1
+            PlayMusic("Theme01"); // Cambia "ThemeEscenario1" por el nombre de la música que quieres reproducir
         }
     }
 

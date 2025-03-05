@@ -17,6 +17,7 @@ public class VidaMosca : MonoBehaviour
         particulaDaño = Resources.Load<GameObject>("particulaDaño");
         vidaCurrente = vidaTotal;
         barraVidaEnemigo.fillAmount = (float)vidaCurrente / vidaTotal;
+        AudioManager.instance.PlaySfx("Mosca");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -35,6 +36,7 @@ public class VidaMosca : MonoBehaviour
 
         if (vidaCurrente <= 0)
         {
+            AudioManager.instance.PlaySfx("Slap");
             Debug.Log("TaMuerto");
             Muerte();
         }

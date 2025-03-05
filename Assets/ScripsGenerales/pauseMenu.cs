@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class pauseMenu : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     private bool isPaused = false;
+
+    
 
     void Update()
     {
@@ -25,6 +29,7 @@ public class pauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        TestButton();
         pauseMenuUI.SetActive(false); // Oculta el menú de pausa
         Time.timeScale = 1f; // Reanuda el tiempo del juego
         isPaused = false;
@@ -40,8 +45,16 @@ public class pauseMenu : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Saliendo del juego...");
-        Application.Quit(); // Cierra el juego (solo funciona en builds)
+        SceneManager.LoadScene("menuinicial");
     }
+    public void ResetGame(){
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void TestButton()
+{
+    Debug.Log("Botón funcionando");
+}
 }
 
 

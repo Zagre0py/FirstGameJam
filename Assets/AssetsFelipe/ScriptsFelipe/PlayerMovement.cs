@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;   // Bloquea el cursor en el centro
         Cursor.visible = false;
         Cursor.visible = false;
-        // Desactivar la rotación del Rigidbody en los ejes X y Z para evitar rotaciones no deseadas
+        // Desactivar la rotaciï¿½n del Rigidbody en los ejes X y Z para evitar rotaciones no deseadas
         rb.freezeRotation = true;
     }
 
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Método para manejar la rotación de la cámara con el ratón
+    // Mï¿½todo para manejar la rotaciï¿½n de la cï¿½mara con el ratï¿½n
     private void HandleMouseLook()
     {
 
@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
 
         transform.Rotate(Vector3.up * mouseX);
 
-        // Rotar la cámara en el eje X (mirar arriba/abajo) con límites
+        // Rotar la cï¿½mara en el eje X (mirar arriba/abajo) con lï¿½mites
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -lookUpDownLimit, lookUpDownLimit);
         Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        // Verificar si el jugador está tocando el suelo
+        // Verificar si el jugador estï¿½ tocando el suelo
         isGrounded = Physics.Raycast(groundCheck.position, Vector3.down, 0.3f, groundLayer);
 
 
@@ -91,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             animatorPlayer.SetTrigger("isAttack");  // Usa SetTrigger en lugar de SetBool para animaciones de ataque
+            AudioManager.instance.PlaySfx("AtaqueRaqueta");
         }
     }
 }

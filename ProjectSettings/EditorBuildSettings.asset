@@ -15,9 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Andrea22.unity
     guid: b767eab3786966e489e46256aa630778
   - enabled: 1
-    path: Assets/Scenes/Julio.unity
-    guid: dda41694154c46a448e038c047122ec5
-  - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: ade119a1edbb6264687bbf5e3e9362dd
   - enabled: 1

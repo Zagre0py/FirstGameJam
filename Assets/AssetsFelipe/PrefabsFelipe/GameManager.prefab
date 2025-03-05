@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7386881915452483175}
   - component: {fileID: 5267721765268250926}
+  - component: {fileID: 1290077954735610345}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -46,6 +47,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaused: 0
   didLose: 0
-  didWinner: 0
-  timeToWin: 15
   scoreGame: 0
+  scoreText: {fileID: 0}
+  timeText: {fileID: 0}
+  waveText: {fileID: 0}
+  fliesRemainingText: {fileID: 0}
+  currentWave: 0
+  currentLevel: 1
+  levelWavesList: []
+--- !u!114 &1290077954735610345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3994907057914070080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 969acc355d4e76b48828100c47d1c69f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 0}
