@@ -4,15 +4,44 @@ using UnityEngine;
 
 public class pauseMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject pauseMenuUI;
+    private bool isPaused = false;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Verifica si se presionó la tecla Esc
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+    }
+
+    public void Resume()
+    {
+        pauseMenuUI.SetActive(false); // Oculta el menú de pausa
+        Time.timeScale = 1f; // Reanuda el tiempo del juego
+        isPaused = false;
+    }
+
+    void Pause()
+    {
+        pauseMenuUI.SetActive(true); // Muestra el menú de pausa
+        Time.timeScale = 0f; // Pausa el tiempo del juego
+        isPaused = true;
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Saliendo del juego...");
+        Application.Quit(); // Cierra el juego (solo funciona en builds)
     }
 }
+
+
