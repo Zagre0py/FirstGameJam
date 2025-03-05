@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Cargando nivel " + currentLevel);
-            //SceneManager.LoadScene("Nivel" + currentLevel); // Cargar el siguiente nivel
+            SceneManager.LoadScene("Andrea2" + currentLevel); // Cargar el siguiente nivel
         }
     }
 
