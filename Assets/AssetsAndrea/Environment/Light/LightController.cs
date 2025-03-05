@@ -1,8 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LightController : MonoBehaviour
 {
+    public static LightController instance { get; private set; }
     [Header("Luces que parpadean")]
     public Light[] flickeringLights; // SpotLights y PointLights que parpadean
     public float flickerSpeed = 0.1f; // Velocidad del parpadeo
@@ -18,9 +20,38 @@ public class LightController : MonoBehaviour
     public float rotationAngle = 45f; // Ángulo total de rotación durante el ciclo
 
     private float rotationSpeed;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+
+            // Solo mantener este objeto persistente si no estamos en MainMenu, GameOver o GameVictory
+            if (SceneManager.GetActiveScene().name != "MainMenu" &&
+                SceneManager.GetActiveScene().name != "GameOver" &&
+                SceneManager.GetActiveScene().name != "GameVictory")
+            {
+                DontDestroyOnLoad(gameObject); // Persistir en las demás escenas
+            }
+        }
+        else
+        {
+            Destroy(gameObject); // Eliminar la instancia duplicada si ya existe
+        }
+    }
 
     void Start()
     {
+        // Singleton
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // Destruir si ya existe otra instancia
+        }
+
         if (directionalLight != null)
         {
             rotationSpeed = rotationAngle / cycleDuration;
@@ -39,6 +70,7 @@ public class LightController : MonoBehaviour
         // Iniciar el ciclo de parpadeo
         StartCoroutine(FlickerLightsCycle());
     }
+
 
     void Update()
     {
@@ -86,6 +118,24 @@ public class LightController : MonoBehaviour
             }
 
             yield return new WaitForSeconds(steadyDuration);
+        }
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // Si la escena es MainMenu, GameOver, o GameVictory, destruir el WaveManager
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu" || scene.name == "GameOver" || scene.name == "GameVictory")
+        {
+            Destroy(gameObject); // Destruir WaveManager si está presente en estas escenas
         }
     }
 }
