@@ -13,7 +13,7 @@ public class pauseMenu : MonoBehaviour
     void Update()
     {
         // Verifica si se presionó la tecla Esc
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             if (isPaused)
             {
@@ -39,6 +39,7 @@ public class pauseMenu : MonoBehaviour
     void Pause()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         pauseMenuUI.SetActive(true); // Muestra el menú de pausa
         Time.timeScale = 0f; // Pausa el tiempo del juego
         isPaused = true;
