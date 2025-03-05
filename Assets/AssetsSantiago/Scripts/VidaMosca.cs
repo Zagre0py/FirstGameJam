@@ -43,7 +43,7 @@ public class VidaMosca : MonoBehaviour
     void Muerte()
     {
         GameManager.Instance.AddScore();
-        OnFlyDefeated?.Invoke(); // Notificar que la mosca ha muerto
+        GameManager.Instance.FlyDefeated(); // Notificar al GameManager que una mosca ha sido derrotada
         Destroy(gameObject);
     }
 }

@@ -12,7 +12,7 @@ public class LifePlayer : MonoBehaviour
     {
         lifeMax = lifeCurrent;
         barLife.fillAmount = (float) lifeCurrent / lifeMax;
-        lifeMax = 30;
+        lifeMax = 40;
 
     }
     private void OnCollisionEnter(Collision collision)
@@ -20,7 +20,7 @@ public class LifePlayer : MonoBehaviour
         if(collision.gameObject.CompareTag("Enemy"))
         {
             TakeDamage();
-            Debug.Log("El player  esta recibiendo daño" + lifeCurrent);
+            //Debug.Log("El player  esta recibiendo daño" + lifeCurrent);
         }
         barLife.fillAmount = (float) lifeCurrent / lifeMax;
     }
