@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,11 +7,15 @@ public class VidaMosca : MonoBehaviour
     public int vidaTotal;
     public int vidaCurrente;
     public Image barraVidaEnemigo;
+    public GameObject particulaDaño;
+
+    // Evento para notificar cuando la mosca muere
+    public event Action OnFlyDefeated;
 
     void Start()
     {
+        particulaDaño = Resources.Load<GameObject>("particulaDaño");
         vidaCurrente = vidaTotal;
-        // Asegúrate de que el cálculo de fillAmount sea correcto usando float
         barraVidaEnemigo.fillAmount = (float)vidaCurrente / vidaTotal;
     }
 
@@ -25,9 +28,9 @@ public class VidaMosca : MonoBehaviour
         barraVidaEnemigo.fillAmount = (float)vidaCurrente / vidaTotal;
     }
 
-
     public void TakeDamage()
     {
+        Instantiate(particulaDaño, transform.position, Quaternion.identity);
         vidaCurrente -= 10;
 
         if (vidaCurrente <= 0)
@@ -39,6 +42,8 @@ public class VidaMosca : MonoBehaviour
 
     void Muerte()
     {
+        GameManager.Instance.AddScore();
+        OnFlyDefeated?.Invoke(); // Notificar que la mosca ha muerto
         Destroy(gameObject);
     }
 }

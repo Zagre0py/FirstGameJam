@@ -1,4 +1,6 @@
+using TMPro; 
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -6,21 +8,29 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] bool isPaused, didLose;
-    public float timeToWin = 15f;
-    public int scoreGame;
+    public int scoreGame = 0;
+    public TextMeshProUGUI scoreText, timeText, waveText; 
 
     // Variables para el sistema de oleadas
     public int currentWave = 0;
     public int totalWavesPerLevel = 3;
     public int currentLevel = 1;
 
-    // Variables para ajustar la dificultad
-    public int baseFliesPerWave = 10; // Moscas base por oleada
-    public float difficultyMultiplier = 1.2f; // Multiplicador de dificultad por nivel
+    // Definición de las oleadas
+    [System.Serializable]
+    public class Wave
+    {
+        public int fliesToSpawn;
+        public float timeLimit;
+    }
+
+    public Wave[] waves;
+
+    private float currentTimeLimit;
+    private int fliesRemainingInWave;
 
     private void Awake()
     {
-        // Implementación del patrón Singleton
         if (Instance == null)
         {
             Instance = this;
@@ -31,41 +41,38 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         didLose = false;
-        //didWinner = false;
         scoreGame = 0;
     }
 
     private void Start()
     {
+        timeText.text = "Tiempo restante: " + currentTimeLimit;
+        scoreText.text = "Score: " + scoreGame.ToString();
+        UpdateWaveText(); // Actualizar el texto de la oleada al inicio
         Time.timeScale = 1f;
         StartWave(); // Iniciar la primera oleada
     }
 
-    public void AddScore(int points)
+    public void AddScore()
     {
-        if (!didLose)
-        {
-            scoreGame += points;
-            Debug.Log("Puntuación: " + scoreGame);
-        }
+        scoreGame += Random.Range(5, 15);
+        scoreText.text = "Score: " + scoreGame.ToString();
+        Debug.Log("Puntuación: " + scoreGame);
     }
 
-    // Se ejecuta cuando perdemos y hace todo lo referente a ello (Reiniciar la escena, devolver valores a defecto)
     public void GameOverLose()
     {
         didLose = true;
         Debug.Log("Fin del juego! Puntuación final: " + scoreGame);
-        SceneManager.LoadScene("NombreScenaDeGameOver");
+        //SceneManager.LoadScene("NombreScenaDeGameOver");
     }
 
-    // Se ejecuta cuando ganamos y hace todo lo referente a ello (cargar nuevo nivel, darnos feedback, etc)
     public void GameOverWin()
     {
-        //didWinner = true;
         Debug.Log("¡Has ganado el nivel!");
         currentLevel++; // Pasar al siguiente nivel
 
-        if (currentLevel > 3) // Supongamos que hay 3 niveles en total
+        if (currentLevel > 2) 
         {
             Debug.Log("¡Has completado todos los niveles!");
             SceneManager.LoadScene("NombreScenaDeVictoria");
@@ -73,7 +80,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Cargando nivel " + currentLevel);
-            SceneManager.LoadScene("Nivel" + currentLevel); // Cargar el siguiente nivel
+            //SceneManager.LoadScene("Nivel" + currentLevel); // Cargar el siguiente nivel
         }
     }
 
@@ -82,7 +89,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // Método para pausar el juego
     public void PauseGame()
     {
         isPaused = !isPaused;
@@ -97,17 +103,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Método para iniciar una oleada
     public void StartWave()
     {
-        if (currentWave < totalWavesPerLevel)
+        if (currentWave < waves.Length)
         {
-            currentWave++;
-            Debug.Log("Iniciando oleada " + currentWave + " del nivel " + currentLevel);
+            currentTimeLimit = waves[currentWave].timeLimit;
+            fliesRemainingInWave = waves[currentWave].fliesToSpawn;
+            Debug.Log("Iniciando oleada " + (currentWave + 1) + " del nivel " + currentLevel);
 
-            // Calcular la dificultad ajustada al nivel
-            int fliesThisWave = Mathf.RoundToInt(baseFliesPerWave * Mathf.Pow(difficultyMultiplier, currentLevel - 1));
-            WaveManager.Instance.StartWave(fliesThisWave); // Iniciar la oleada con el número de moscas ajustado
+            UpdateWaveText(); // Actualizar el texto de la oleada
+            WaveManager.Instance.StartWave(fliesRemainingInWave); // Iniciar la oleada con el número de moscas ajustado
+            StartCoroutine(WaveTimer());
         }
         else
         {
@@ -116,10 +122,50 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Método para notificar que una oleada ha sido completada
+    private IEnumerator WaveTimer()
+    {
+        while (currentTimeLimit > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            currentTimeLimit--;
+            timeText.text = "Tiempo restante: " + currentTimeLimit;
+
+            if (fliesRemainingInWave <= 0)
+            {
+                CompleteWave();
+                yield break;
+            }
+        }
+        // Si el tiempo se acaba y aún hay moscas vivas, el jugador pierd
+        if (fliesRemainingInWave > 0)
+        {
+            GameOverLose();
+        }
+    }
+
     public void CompleteWave()
     {
-        Debug.Log("Oleada " + currentWave + " completada!");
+        Debug.Log("Oleada " + (currentWave + 1) + " completada!");
+        currentWave++;
         StartWave(); // Iniciar la siguiente oleada
+    }
+
+    public void FlyDefeated()
+    {
+        fliesRemainingInWave--;
+
+        if (fliesRemainingInWave <= 0)
+        {
+            CompleteWave();
+        }
+    }
+
+    // Método para actualizar el texto de la oleada
+    private void UpdateWaveText()
+    {
+        if (waveText != null)
+        {
+            waveText.text = "Oleada: " + (currentWave + 1); // Mostrar la oleada actual
+        }
     }
 }
